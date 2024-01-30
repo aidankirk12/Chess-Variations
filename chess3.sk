@@ -1,0 +1,195 @@
+on load:
+    set {CHg::piece::color::identifier::*} to "w" and "b"
+    set {CHg::piece::role::identifier::*} to "P", "R", "N", "B", "Q", "K" and "--"
+    set {CHg::board::8::setup::*} to "bR bN bB bQ bK bB bN bR"
+    set {CHg::board::7::setup::*} to "bP bP bP bP bP bP bP bP"
+    set {CHg::board::6::setup::*} to "-- -- -- -- -- -- -- --"
+    set {CHg::board::5::setup::*} to "-- -- -- -- -- -- -- --"
+    set {CHg::board::4::setup::*} to "-- -- -- -- -- -- -- --"
+    set {CHg::board::3::setup::*} to "-- -- -- -- -- -- -- --"
+    set {CHg::board::2::setup::*} to "wP wP wP wP wP wP wP wP"
+    set {CHg::board::1::setup::*} to "wR wN wB wQ wK wB wN wR"
+    #board object = "wR wN wB wQ wK wB wN wR"
+    #id object = "Auuid Buuid"
+    #square object = "2 3" 
+    #piece object = "wK"
+    #color obkect = "w"
+    #role object = "K"
+    #move object = "2 1-move-3 3" or "5 1-move-7 1,8 1-move-5 1" or "1 7-promote-1 8" or "1 5-move-2 6,1 5-remove-2 5"
+
+
+
+function CHsetBoard(id: string, game: integer, row: integer, board: string):
+    set {CHl::%{_id}%::%{_game}%::board::%{_row}%} to {_board}
+
+function CHgetBoard(id: string, game: integer, row: integer) :: string:
+    return {CHl::%{_id}%::%{_game}%::board::%{_row}%}
+
+
+function CHsetPiece(id: string, game: integer, square: string, piece: string):
+    set {_boardSplit::*} to {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} split at " "
+    set {_boardSplit::%CHgetSquareColumn({_square})%} to {_piece}
+    set {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} to ""
+    loop size of {_boardSplit::*} times:
+        set {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} to "%{CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%}% %{_boardSplit::%loop-value%}%"
+    set {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} to last length of {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} - 1 characters of {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%}
+
+function CHgetPiece(id: string, game: integer, square: string) :: string:
+    set {_boardSplit::*} to {CHl::%{_id}%::%{_game}%::board::%CHgetSquareRow({_square})%} split at " "
+    return {_boardSplit::%CHgetSquareColumn({_square})%}
+
+
+function CHsetPieceColor(id: string, game: integer, square: string, color: string):
+    CHsetPiece({_id}, {_game}, {_square}, "%{_color}%%last character of CHgetPiece({_id}, {_game}, {_square})%")
+
+function CHgetPieceColor(id: string, game: integer, square: string) :: string:
+    return first character of CHgetPiece({_id}, {_game}, {_square})
+
+
+function CHsetPieceRole(id: string, game: integer, square: string, role: string):
+    CHsetPiece({_id}, {_game}, {_square}, "%first character of CHgetPiece({_id}, {_game}, {_square})%%{_role}%")
+
+function CHgetPieceRole(id: string, game: integer, square: string) :: string:
+    return last character of CHgetPiece({_id}, {_game}, {_square})
+
+
+function CHgetPossibleMoves(id: string, game: integer, square: string) :: strings:
+    if CHgetPieceRole({_id}, {_game}, {_square}) = {CHg::piece::role::identifier::1}:
+        if CHgetPieceColor({_id}, {_game}, {_square}) = {CHg::piece::color::identifier::1}:
+            if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 0, 1)) = {CHg::piece::role::identifier::7}:
+                add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, 1)%" to {_moves::*}
+            if CHsquareExists(CHgetModifiedSquare({_square}, -1, 1)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, -1, 1)) != {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -1, 1)%" to {_moves::*}
+            if CHsquareExists(CHgetModifiedSquare({_square}, 1, 1)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 1, 1)) != {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 1, 1)%" to {_moves::*}
+        else if CHgetPieceColor({_id}, {_game}, {_square}) = {CHg::piece::color::identifier::2}:
+            if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 0, -1)) = {CHg::piece::color::identifier::7}:
+                add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, -1)%" to {_moves::*}
+            if CHsquareExists(CHgetModifiedSquare({_square}, -1, -1)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, -1, -1)) != {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -1, -1)%" to {_moves::*}
+            if CHsquareExists(CHgetModifiedSquare({_square}, 1, -1)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 1, -1)) != {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 1, -1)%" to {_moves::*}
+    else if CHgetPieceRole({_id}, {_game}, {_square}) = {CHg::piece::role::identifier::2} or {CHg::piece::role::identifier::6}:
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, loop-value, 0)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, 0)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, 0)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, 0)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, 0)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, 0, loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 0, loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, 0, loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, -loop-value, 0)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, 0)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, 0)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, 0)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, 0)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, 0, -loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, 0, -loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, -loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, 0, -loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, 0, -loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+    else if CHgetPieceRole({_id}, {_game}, {_square}) = {CHg::piece::role::identifier::4}:
+        if CHsquareExists(CHgetModifiedSquare({_square}, 1, 2)) = true:
+            
+    else if CHgetPieceRole({_id}, {_game}, {_square}) = {CHg::piece::role::identifier::3} or {CHg::piece::role::identifier::6}:
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, loop-value, loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, loop-value, -loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, -loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, -loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, loop-value, -loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, loop-value, -loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, -loop-value, loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+        loop 8 times:
+            if CHsquareExists(CHgetModifiedSquare({_square}, -loop-value, -loop-value)) = true:
+                if CHgetPiece({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, -loop-value)) = {CHg::piece::color::identifier::7}:
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, -loop-value)%" to {_moves::*}
+                else if CHgetPieceColor({_id}, {_game}, CHgetModifiedSquare({_square}, -loop-value, -loop-value)) != CHgetPieceColor({_id}, {_game}, {_square}):
+                    add "%{_square}%-move-%CHgetModifiedSquare({_square}, -loop-value, -loop-value)%" to {_moves::*}
+                    exit loop
+                else:
+                    exit loop
+            else:
+                exit loop
+
+
+function CHsquareExists(square: string) :: boolean:
+    if CHgetSquareColumn({_square}) is between 1 and 8:
+        if CHgetSquareRow({_square}) is between 1 and 8:
+            return true
+    return false
+
+
+function CHgetModifiedSquare(square: string, colMod: integer, rowMod: integer) :: string:
+    return "%CHgetSquareColumn({_square}) + {_colMod}% %CHgetSquareRow({_square}) + {_rowMod}%"
+
+
+function CHgetSquareColumn(square: string) :: integer:
+    set {_squareSplit::*} to {_square} split at " "
+    return {_squareSplit::1} parsed as integer
+
+function CHgetSquareRow(square: string) :: integer:
+    set {_squareSplit::*} to {_square} split at " "
+    return {_squareSplit::2} parsed as integer
+
+
+function CHcombineStringLists(list1: strings, list2: strings) :: strings:
+    set {_r::*} to {_list1::*}
+    loop size of {_list2::*} times:
+        add {_list2::%loop-value%} to {_r::*}
+    return {_r::*}

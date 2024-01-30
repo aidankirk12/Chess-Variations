@@ -1,0 +1,620 @@
+on load:
+    set {CHg::color::strings::*} to "white" and "black"
+    set {CHg::color::symbols::*} to "w" and "b"
+    set {CHg::piece::strings::*} to "pawn", "rook", "knight", "bishop", "queen" and "king"
+    set {CHg::piece::symbols::*} to "P", "R", "N", "B", "Q" and "K"
+    set {CHg::piece::blocks::white::*} to quartz block, iron block, white terracotta, white wool, quartz bricks and chiseled quartz block
+    set {CHg::piece::blocks::black::*} to polished blackstone, coal block, black terracotta, black wool, polished blackstone bricks and chiseled polished blackstone
+    set {CHg::board::default::*} to "bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR", "bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP", "wR", "wN", "wB", "wQ", "wK", "wB", "wN" and "wR"
+    set {CHg::display::border} to bedrock
+    set {CHg::display::whiteSquare} to white concrete
+    set {CHg::display::blackSquare} to black concrete
+    set {CHg::display::sign::white} to westward oak sign
+    set {CHg::display::sign::black} to eastward oak sign
+    set {CHg::display::signLines::white::*} to "test", "test", "test" and "test"
+    set {CHg::display::signLines::black::*} to "test", "test", "test" and "test"
+    set {CHg::turn::start} to "white"
+    if {CHg::displayCount} is not set:
+        set {CHg::displayCount} to 1
+
+
+
+on right click:
+    loop size of {CHg::availableGames::*} times:
+        set {_g} to {CHg::availableGames::%loop-value%}
+        set {_d} to CHgameGetDisplay({_g})
+        set {_w} to world of {_d}
+        set {_x} to x-coordinate of {_d}
+        set {_y} to y-coordinate of {_d}
+        set {_z} to z-coordinate of {_d}
+        if {_w} = event-world:
+            if event-location = location at {_x} - 1, {_y} + 1, {_z} + 4 in {_w}:
+                CHgameSetP1({_g}, player)
+                CHeventRightClickHelper1({_g}, event-location)
+            else if event-location = location at {_x} + 8, {_y} + 1, {_z} + 4 in {_w}:
+                CHgameSetP2({_g}, player)
+                CHeventRightClickHelper1({_g}, event-location)
+    loop size of {CHg::activeGames::*} times:
+        set {_g} to {CHg::activeGames::%loop-value%}
+        set {_d} to CHgameGetDisplay({_g})
+        set {_w} to world of {_d}
+        set {_x} to x-coordinate of {_d}
+        set {_y} to y-coordinate of {_d}
+        set {_z} to z-coordinate of {_d}
+        set {_ws} to world of event-location
+        set {_xs} to x-coordinate of event-location
+        set {_ys} to y-coordinate of event-location
+        set {_zs} to z-coordinate of event-location
+        set {_x2Border} to {_x} + 7
+        set {_z2Border} to {_z} + 7
+        if {_ws} = {_w}:
+            if {_xs} is between {_x} and {_x2Border}:
+                if {_ys} is between {_y} and {_y} + 1:
+                    if {_zs} is between {_z} and {_z2Border}:
+                        if {_ys} = {_y}:
+                            set {_s} to CHgameGetSquare({_g}, event-location)
+                            if CHgameGetColorInteger({_g}, {_s}) is set:
+                                CHgameSetActiveSquare({_g}, {_s})
+
+                
+function CHeventRightClickHelper1(g: integer, ls: location):
+    set block at {_ls} to air
+    CHgamePlayerJoin({_g})
+
+
+
+#game Class
+function CHgameCreate(g: integer, d: location):
+    CHgameSetDisplay({_g}, {_d})
+    CHgameSetBoard({_g}, {CHg::board::default::*})
+    CHgameSetTurn({_g}, {CHg::turn::start})
+    add {_g} to {CHg::availableGames::*}
+
+
+function CHgameGetDisplay(g: integer) :: location:
+    return {CHl::game::%{_g}%::location}
+
+function CHgameSetDisplay(g: integer, d: location):
+    set {CHl::game::%{_g}%::location} to {_d}
+
+
+function CHgameGetP1(g: integer) :: player:
+    return {CHl::game::%{_g}%::player1}
+
+function CHgameSetP1(g: integer, p1: player):
+    set {CHl::game::%{_g}%::player1} to {_p1}
+
+
+function CHgameGetP2(g: integer) :: player:
+    return {CHl::game::%{_g}%::player2}
+
+function CHgameSetP2(g: integer, p2: player):
+    set {CHl::game::%{_g}%::player2} to {_p2}
+
+
+function CHgameGetBoard(g: integer) :: strings:
+    loop 64 times:
+        add CHgameGetSymbol({_g}, "%loop-value%" parsed as integer) to {_r::*}
+    return {_r::*}
+
+function CHgameSetBoard(g: integer, b: strings):
+    loop 64 times:
+        CHgameSetSymbol({_g}, "%loop-value%" parsed as integer, {_b::%loop-value%})
+
+function CHgamePrintBoard(g: integer):
+    set {_syList::*} to CHgameGetBoard({_g})
+    loop 8 times:
+        set {_tString} to {_syList::%((loop-value - 1) * 8) + 1%}
+        loop 7 times:
+            set {_lv1-1} to loop-value-1
+            set {_lv1-1} to {_lv1-1} - 1
+            set {_tInteger} to (loop-value-2 + 1) + ({_lv1-1} * 8)
+            set {_tString} to "%{_tString}% %{_syList::%{_tInteger}%}%"
+        broadcast {_tString}
+
+
+function CHgameGetTurn(g: integer) :: string:
+    return {CHl::game::%{_g}%::turn}
+
+function CHgameSetTurn(g: integer, t: string):
+    set {CHl::game::%{_g}%::turn} to {_t}
+
+
+function CHgameGetSymbol(g: integer, s: integer) :: string:
+    return {CHl::game::%{_g}%::square::%{_s}%::symbol}
+
+function CHgameSetSymbol(g: integer, s: integer, sy: string):
+    set {CHl::game::%{_g}%::square::%{_s}%::symbol} to {_sy}
+
+
+function CHgameGetColorString(g: integer, s: integer) :: string:
+    return CHconvertSymbolToColorString(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameGetColorSymbol(g: integer, s: integer) :: string:
+    return CHconvertSymbolToColorSymbol(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameGetColorInteger(g: integer, s: integer) :: integer:
+    return CHconvertSymbolToColorInteger(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameSetColor(g: integer, s: integer, c: integer):
+    set {CHl::game::%{_g}%::square::%{_s}%::symbol} to "%{CHg::color::symbols::%{_c}%}%%CHgameGetPieceSymbol({_g}, {_s})%"
+
+
+function CHgameGetPieceString(g: integer, s: integer) :: string:
+    return CHconvertSymbolToPieceString(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameGetPieceSymbol(g: integer, s: integer) :: string:
+    return CHconvertSymbolToPieceSymbol(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameGetPieceInteger(g: integer, s: integer) :: integer:
+    return CHconvertSymbolToPieceInteger(CHgameGetSymbol({_g}, {_s}))
+
+function CHgameSetPiece(g: integer, s: integer, p: integer):
+    set {CHl::game::%{_g}%::square::%{_s}%::symbol} to "%CHgameGetColorSymbol({_g}, {_s})%%{CHg::piece::symbols::%{_p}%}%"
+
+
+function CHgameGetBlock(g: integer, s: integer) :: item:
+    return CHconvertSymbolToBlock(CHgameGetSymbol({_g}, {_s}))
+
+
+function CHgameGetKing(g: integer, c: integer) :: integer:
+    loop 64 times:
+        if CHgameGetSymbol({_g}, "%loop-value%" parsed as integer) = "%{CHg::color::symbols::%{_c}%}%%{CHg::piece::symbols::*}%":
+            return "%loop-value%" parsed as integer
+            exit loop
+
+
+function CHgameGetPossibleMoves(g: integer, s: integer) :: strings:
+    set {_c} to CHgameGetColorInteger({_g}, {_s})
+    set {_p} to CHgameGetPieceInteger({_g}, {_s})
+    if {_p} = 1:
+        if {_c} = 1:
+            add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 8") to {_r::*}
+        else if {_c} = 2:
+            add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8") to {_r::*}
+    else if {_p} = 2:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - @lv@"), {_r::*})
+    else if {_p} = 3:
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 16 + 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 16 - 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 1 - 16") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 16 - 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8 + 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8 - 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 1 - 8") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 8 - 1") to {_r::*}
+    else if {_p} = 4:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + @lv@ - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@ - @lv@"), {_r::*})
+    else if {_p} = 5:
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 8") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8 + 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% + 8 - 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 8 + 1") to {_r::*}
+        add CHgameGetPossibleMovesHelper1({_g}, {_s}, "%{_s}% - 8 - 1") to {_r::*}
+    else if {_p} = 6:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% + @lv@ - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleMovesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@ - @lv@"), {_r::*})
+    return {_r::*}
+
+function CHgameGetPossibleMovesHelper1(g: integer, s: integer, i: string) :: string:
+    set {_i} to CHevaluteString({_i})
+    if CHgameGetSymbol({_g}, {_i}) = "":
+        return "%{_s}% %{_i}%"
+
+function CHgameGetPossibleMovesHelper2(g: integer, s: integer, i: string) :: strings:
+    loop 7 times:
+        replace all "@lv@" with "%loop-value%" in {_i}
+        set {_i} to CHevaluteString({_i})
+        if CHgameGetSymbol({_g}, {_i}) = "":
+            add "%{_s}% %{_i}%" to {_r::*}
+        else:
+            exit loop
+    return {_r::*}
+
+
+function CHgameGetPossibleCaptures(g: integer, s: integer) :: strings:
+    set {_c} to CHgameGetColorInteger({_g}, {_s})
+    set {_p} to CHgameGetPieceInteger({_g}, {_s})
+    if {_p} = 1:
+        if {_c} = 1:
+            add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 8") to {_r::*}
+        else if {_c} = 2:
+            add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8") to {_r::*}
+    else if {_p} = 2:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - @lv@"), {_r::*})
+    else if {_p} = 3:
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 16 + 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 16 - 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 1 - 16") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 16 - 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8 + 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8 - 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 8 + 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 8 - 1") to {_r::*}
+    else if {_p} = 4:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + @lv@ - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@ - @lv@"), {_r::*})
+    else if {_p} = 5:
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 8") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8 + 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 8 - 1") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% + 1 - 8") to {_r::*}
+        add CHgameGetPossibleCapturesHelper1({_g}, {_s}, "%{_s}% - 8 - 1") to {_r::*}
+    else if {_p} = 6:
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ + @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + 8 * @lv@ - @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% + @lv@ - 8 * @lv@"), {_r::*})
+        set {_r::*} to CHcombineStringLists(CHgameGetPossibleCapturesHelper2({_g}, {_s}, "%{_s}% - 8 * @lv@ - @lv@"), {_r::*})
+    return {_r::*}
+
+function CHgameGetPossibleCapturesHelper1(g: integer, s: integer, i: string) :: string:
+    set {_i} to CHevaluteString({_i})
+    if CHgameGetColorInteger({_g}, {_s}) != CHgameGetColorInteger({_g}, {_i}):
+        return "%{_s}% %{_i}%"
+
+function CHgameGetPossibleCapturesHelper2(g: integer, s: integer, i: string) :: strings:
+    loop 7 times:
+        replace all "@lv@" with "%loop-value%" in {_i}
+        set {_i} to CHevaluteString({_i})
+        if CHgameGetSymbol({_g}, {_i}) != "":
+            if CHgameGetColorInteger({_g}, {_s}) != CHgameGetColorInteger({_g}, {_i}):
+                add "%{_s}% %{_i}%" to {_r::*}
+            exit loop
+    return {_r::*}
+
+
+function CHgameGetAllPossibleMoves(g: integer, c: integer) :: strings:
+    loop 64 times:
+        if {_c} = CHgameGetColorInteger({_g}, "%loop-value%" parsed as integer):
+            set {_r::*} to CHcombineStringLists(CHgameGetPossibleMoves({_g}, "%loop-value%" parsed as integer), {_r::*})
+    return {_r::*}
+
+
+function CHgameGetAllPossibleCaptures(g: integer, c: integer) :: strings:
+    loop 64 times:
+        if {_c} = CHgameGetColorInteger({_g}, "%loop-value%" parsed as integer):
+            set {_r::*} to CHcombineStringLists(CHgameGetPossibleCaptures({_g}, "%loop-value%" parsed as integer), {_r::*})
+    return {_r::*}
+
+
+function CHgameGetMoves(g: integer, s: integer) :: strings:
+    set {_c} to CHgameGetColorInteger({_g}, {_s})
+    set {_mList::*} to CHgameGetPossibleMoves({_g}, {_s})
+    loop size of {_mList::*} times:
+        CHgameSetBoard(-1, CHgameGetBoard({_g}))
+        CHgameMove(-1, {_mList::%loop-value%})
+        if CHgameGetChecked({_g}, {_c}) = true:
+            set {_mList::%loop-value%} to ""
+    loop size of {_mList::*} times:
+        if {_mList::%loop-value%} != "":
+            add {_mList::%loop-value%} to {_r::*}
+    return {_r::*}
+
+
+function CHgameGetCaptures(g: integer, s: integer) :: strings:
+    set {_c} to CHgameGetColorInteger({_g}, {_s})
+    set {_caList::*} to CHgameGetPossibleCaptures({_g}, {_s})
+    loop size of {_caList::*} times:
+        CHgameSetBoard(-1, CHgameGetBoard({_g}))
+        CHgameCapture(-1, {_caList::%loop-value%})
+        if CHgameGetChecked({_g}, {_c}) = true:
+            set {_caList::%loop-value%} to ""
+    loop size of {_caList::*} times:
+        if {_caList::%loop-value%} != "":
+            add {_caList::%loop-value%} to {_r::*}
+    return {_r::*}
+
+
+function CHgameGetChecked(g: integer, c: integer) :: boolean:
+    set {_caList::*} to CHgameGetAllPossibleCaptures({_g}, {_c})
+    loop size of {_caList::*} times:
+        set {_ca} to CHconvertCaptureToSquare2({_caList::%loop-value%})
+        if {_ca} = CHgameGetKing({_g}, {_c}):
+            return true
+            stop
+    return false
+
+
+function CHgameMove(g: integer, m: string):
+    set {_s1} to CHconvertMoveToSquare1({_m})
+    set {_s2} to CHconvertMoveToSquare2({_m})
+    set {_p} to CHgameGetPieceInteger({_g}, {_s1})
+    if {_p} = 1:
+        CHgameSetSymbol({_g}, {_s2}, CHgameGetSymbol({_g}, {_s1}))
+        CHgameSetSymbol({_g}, {_s1}, "")
+    else if {_p} = 2 or 3 or 4 or 5:
+        CHgameSetSymbol({_g}, {_s2}, CHgameGetSymbol({_g}, {_s1}))
+        CHgameSetSymbol({_g}, {_s1}, "")
+    else if {_p} = 6:
+        CHgameSetSymbol({_g}, {_s2}, CHgameGetSymbol({_g}, {_s1}))
+        CHgameSetSymbol({_g}, {_s1}, "")
+
+
+function CHgameCapture(g: integer, ca: string):
+    set {_s1} to CHconvertCaptureToSquare1({_ca})
+    set {_s2} to CHconvertCaptureToSquare2({_ca})
+    CHgameSetSymbol({_g}, {_s2}, CHgameGetSymbol({_g}, {_s1}))
+    CHgameSetSymbol({_g}, {_s1}, "")
+
+
+function CHgameGetActiveSquare(g: integer) :: integer:
+    return {CHl::game::%{_g}%::activeSquare}
+
+function CHgameSetActiveSquare(g: integer, s: integer):
+    set {CHl::game::%{_g}%::activeSquare} to {_s}
+
+function CHgameDeleteActiveSquare(g: integer):
+    delete {CHl::game::%{_g}%::activeSquare}
+
+function CHgameMaterializeActiveSquare(g: integer):
+    set {_ls} to CHgameGetActiveSquare({_g})
+
+
+function CHgameUnMaterializeActiveSquare(g: integer):
+
+
+
+function CHgameMaterialize(g: integer):
+    set {_d} to CHgameGetDisplay({_g})
+    set {_w} to world of {_d}
+    set {_x} to x-coordinate of {_d}
+    set {_y} to y-coordinate of {_d}
+    set {_z} to z-coordinate of {_d}
+    loop 8 times:
+        loop 8 times:
+            set block at location at {_x} - 1 + loop-value-1, {_y}, {_z} - 1 + loop-value-2 in {_w} to air
+    CHgameMaterializeHelper1(location at ({_x} - 1, {_y}, {_z} - 1) in {_w})
+    CHgameMaterializeHelper1(location at ({_x} - 1, {_y} - 1, {_z} - 1) in {_w})
+    loop 4 times:
+        loop 4 times:
+            set block at location at {_x} - 2 + loop-value-1 * 2, {_y} - 1, {_z} - 2 + loop-value-2 * 2 in {_w} to {CHg::display::blackSquare}
+            wait 1 tick
+            set block at location at {_x} - 1 + loop-value-1 * 2, {_y} - 1, {_z} - 2 + loop-value-2 * 2 in {_w} to {CHg::display::whiteSquare}
+            wait 1 tick
+            set block at location at {_x} - 2 + loop-value-1 * 2, {_y} - 1, {_z} - 1 + loop-value-2 * 2 in {_w} to {CHg::display::whiteSquare}
+            wait 1 tick
+            set block at location at {_x} - 1 + loop-value-1 * 2, {_y} - 1, {_z} - 1 + loop-value-2 * 2 in {_w} to {CHg::display::blackSquare}
+            wait 1 tick
+    CHgameMaterializeHelper2(location at ({_x} - 1, {_y} + 1, {_z} + 4) in {_w}, 1)
+    CHgameMaterializeHelper2(location at ({_x} + 8, {_y} + 1, {_z} + 4) in {_w}, 2)
+
+function CHgameMaterializeHelper1(l: location):
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    loop 9 times:
+        set block at location at {_x} + loop-value, {_y}, {_z} in {_w} to {CHg::display::border}
+    loop 9 times:
+        set block at location at {_x} + 9, {_y}, {_z} + loop-value in {_w} to {CHg::display::border}
+    loop 9 times:
+        set block at location at {_x} + 9 - loop-value, {_y}, {_z} + 9 in {_w} to {CHg::display::border}
+    loop 9 times:
+        set block at location at {_x}, {_y}, {_z} + 9 - loop-value in {_w} to {CHg::display::border}
+
+function CHgameMaterializeHelper2(l: location, c: integer):
+    set block at {_l} to {CHg::display::sign::%{CHg::color::strings::%{_c}%}%}
+    loop 4 times:
+        set line loop-value of block at {_l} to {CHg::display::signLines::%{CHg::color::strings::%{_c}%}%::%loop-value%}
+
+
+function CHgameMaterializePieces(g: integer):
+    set {_d} to CHgameGetDisplay({_g})
+    set {_b::*} to CHgameGetBoard({_g})
+    set {_w} to world of {_d}
+    set {_x} to x-coordinate of {_d}
+    set {_y} to y-coordinate of {_d}
+    set {_z} to z-coordinate of {_d}
+    loop 8 times:
+        loop 8 times:
+            set {_lv1-1} to loop-value-1
+            set {_lv1-1} to {_lv1-1} - 1
+            set {_tInteger} to {_lv1-1} * 8 + loop-value-2
+            set block at location at {_x} + 8 - loop-value-1, {_y}, {_z} - 1 + loop-value-2 in {_w} to CHconvertSymbolToBlock({_b::%{_tInteger}%})
+            wait 1 tick
+
+
+function CHgamePlayerJoin(g: integer):
+    set {_p1} to CHgameGetP1({_g})
+    set {_p2} to CHgameGetP2({_g})
+    if {_p1} is set:
+        if {_p2} is not set:
+            send "white join" to {_p1}
+        else:
+            if {_p1} != {_p2}:
+                send "play oponent" to {_p1}
+                send "play oponent" to {_p2}
+            else:
+                send "play self" to {_p1}
+            remove {_g} from {CHg::availableGames::*}
+            add {_g} to {CHg::activeGames::*}
+    else if {_p2} is set:
+        if {_p1} is not set:
+            send "black join" to {_p2}
+
+
+function CHgameGetSquare(g: integer, ls: location) :: integer:
+    set {_l} to CHgameGetDisplay({_g})
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    set {_ws} to world of {_ls}
+    set {_xs} to x-coordinate of {_ls}
+    set {_ys} to y-coordinate of {_ls}
+    set {_zs} to z-coordinate of {_ls}
+    set {_tInteger1} to {_xs} - {_x}
+    set {_tInteger2} to {_zs} - {_z}
+    set {_r} to (7 - {_tInteger1}) * 8 + {_tInteger2} + 1
+    broadcast "%{_r}%"
+    return {_r}
+
+function CHgameGetSquareLocation(g: integer, s: integer) :: location:
+    set {_d} to CHgameGetDisplay({_g})
+    set {_w} to world of {_d}
+    set {_x} to x-coordinate of {_d}
+    set {_y} to y-coordinate of {_d}
+    set {_z} to z-coordinate of {_d}
+    loop 8 times:
+        loop 8 times:
+            set {_lv1-1} to loop-value-1
+            set {_lv1-1} to {_lv1-1} - 1
+            set {_lv2-1} to loop-value-2
+            set {_lv2-1} to {_lv2-1} - 1
+            if (8 - {_lv1-1}) * 8 - {_lv2-1} = {_s}:
+                return location at {_x} + {_lv1-1}, {_y}, {_z} + 7 - {_lv2-1} in {_w}
+
+
+#convert Methods
+function CHconvertSymbolToColorString(sy: string) :: string:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::color::symbols::*} times:
+        if {_sySplit::1} = {CHg::color::symbols::%loop-value%}:
+            return {CHg::color::strings::%loop-value%}
+
+function CHconvertSymbolToColorSymbol(sy: string) :: string:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::color::symbols::*} times:
+        if {_sySplit::1} = {CHg::color::symbols::%loop-value%}:
+            return {CHg::color::symbols::%loop-value%}
+
+function CHconvertSymbolToColorInteger(sy: string) :: integer:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::color::symbols::*} times:
+        if {_sySplit::1} = {CHg::color::symbols::%loop-value%}:
+            return "%loop-value%" parsed as integer
+
+
+function CHconvertSymbolToPieceString(sy: string) :: string:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::piece::symbols::*} times:
+        if {_sySplit::2} = {CHg::piece::symbols::%loop-value%}:
+            return {CHg::piece::strings::%loop-value%}
+
+function CHconvertSymbolToPieceSymbol(sy: string) :: string:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::piece::symbols::*} times:
+        if {_sySplit::2} = {CHg::piece::symbols::%loop-value%}:
+            return {CHg::piece::symbols::%loop-value%}
+
+function CHconvertSymbolToPieceInteger(sy: string) :: integer:
+    set {_sySplit::*} to {_sy} split at ""
+    loop size of {CHg::piece::symbols::*} times:
+        if {_sySplit::2} = {CHg::piece::symbols::%loop-value%}:
+            return "%loop-value%" parsed as integer
+
+
+function CHconvertSymbolToBlock(sy: string) :: item:
+    set {_tString1} to CHconvertSymbolToColorString({_sy})
+    set {_tString2} to CHconvertSymbolToPieceInteger({_sy})
+    return {CHg::piece::blocks::%{_tString1}%::%{_tString2}%}
+
+
+function CHconvertMoveToSquare1(m: string) :: integer:
+    set {_mSplit::*} to {_m} split at " "
+    return {_mSplit::1} parsed as integer
+
+function CHconvertMoveToSquare2(m: string) :: integer:
+    set {_mSplit::*} to {_m} split at " "
+    return {_mSplit::2} parsed as integer
+
+
+function CHconvertCaptureToSquare1(ca: string) :: integer:
+    set {_caSplit::*} to {_ca} split at " "
+    return {_caSplit::1} parsed as integer
+
+function CHconvertCaptureToSquare2(ca: string) :: integer:
+    set {_caSplit::*} to {_ca} split at " "
+    return {_caSplit::2} parsed as integer
+
+
+#misc Methods
+function CHcombineStringLists(l1: strings, l2: strings) :: strings:
+    loop size of {_l1::*} times:
+        add {_l1::%loop-value%} to {_r::*}
+    loop size of {_l2::*} times:
+        add {_l2::%loop-value%} to {_r::*}
+    return {_r::*}
+
+function CHcombineIntegerLists(l1: integers, l2: integers) :: integers:
+    loop size of {_l1::*} times:
+        add {_l1::%loop-value%} to {_r::*}
+    loop size of {_l2::*} times:
+        add {_l2::%loop-value%} to {_r::*}
+    return {_r::*}
+
+
+function CHremoveIntegerDuplicates(l: integers) :: integers:
+    loop size of {_l::*} times:
+        loop size of {_l::*} times:
+            if loop-value-1 != loop-value-2:
+                if {_l::%loop-value-1%} = {_l::%loop-value-2%}:
+                    set {_l::%loop-value-2%} to -1
+    loop size of {_l::*} times:
+        if {_l::%loop-value%} != -1:
+            add {_l::%loop-value%} to {_r::*}
+    return {_r::*}
+
+
+function CHevaluteString(s: string) :: integer:
+    set {_s1Split::*} to {_s} split at " "
+    loop size of {_s1Split::*} times:
+        if {_s1Split::%loop-value%} = "*":
+            set {_s1Split::%loop-value%} to "%{_s1Split::%loop-value - 1%} parsed as integer * {_s1Split::%loop-value + 1%} parsed as integer%"
+            set {_s1Split::%loop-value - 1%} to ""
+            set {_s1Split::%loop-value + 1%} to ""
+    set {_s2Split::*} to CHevaluteStringHelper1({_s1Split::*})
+    loop size of {_s2Split::*} times:
+        if {_s2Split::%loop-value%} = "/":
+            set {_s2Split::%loop-value%} to "%{_s2Split::%loop-value - 1%} parsed as integer / {_s2Split::%loop-value + 1%} parsed as integer%"
+            set {_s2Split::%loop-value - 1%} to ""
+            set {_s2Split::%loop-value + 1%} to ""
+    set {_s3Split::*} to CHevaluteStringHelper1({_s2Split::*})
+    loop size of {_s3Split::*} times:
+        if {_s3Split::%loop-value%} = "+":
+            set {_s3Split::%loop-value%} to "%{_s3Split::%loop-value - 1%} parsed as integer + {_s3Split::%loop-value + 1%} parsed as integer%"
+            set {_s3Split::%loop-value - 1%} to ""
+            set {_s3Split::%loop-value + 1%} to ""
+    set {_s4Split::*} to CHevaluteStringHelper1({_s3Split::*})
+    loop size of {_s4Split::*} times:
+        if {_s4Split::%loop-value%} = "-":
+            set {_s4Split::%loop-value%} to "%{_s4Split::%loop-value - 1%} parsed as integer - {_s4Split::%loop-value + 1%} parsed as integer%"
+            set {_s4Split::%loop-value - 1%} to ""
+            set {_s4Split::%loop-value + 1%} to ""
+    set {_s5Split::*} to CHevaluteStringHelper1({_s4Split::*})
+    loop size of {_s5Split::*} times:
+        add {_s5Split::%loop-value%} parsed as integer to {_r}
+    return {_r}
+
+function CHevaluteStringHelper1(s: strings) :: strings:
+    loop size of {_s::*} times:
+        if {_s::%loop-value%} != "":
+            add {_s::%loop-value%} to {_r::*}
+    return {_r::*}

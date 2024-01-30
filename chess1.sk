@@ -1,0 +1,534 @@
+options:
+    CHC1: <##00ff7b>
+    CHC2: <##54ff98>
+    CHC3: &7
+    CHC4: &C
+    CHC5: &8
+
+on load:
+    set {CH::global::prefix} to "{@CHC1}&lCHESS {@CHC5}» "
+    set {CH::global::boardBlock::border} to bedrock
+    set {CH::global::boardBlock::whiteSquare} to white concrete
+    set {CH::global::boardBlock::blackSquare} to black concrete
+    set {CH::global::boardBlock::white::sign} to westward oak sign
+    set {CH::global::boardBlock::black::sign} to eastward oak sign
+    set {CH::global::boardBlock::white::signLines::*} to "test", "test", "test" and "test"
+    set {CH::global::boardBlock::black::signLines::*} to "test", "test", "test" and "test"
+    set {CH::global::boardBlock::white::pieces::*} to quartz block, iron block, white terracotta, white wool, quartz bricks and chiseled quartz block
+    set {CH::global::boardBlock::black::pieces::*} to polished blackstone, coal block, black terracotta, black wool, polished blackstone bricks and chiseled polished blackstone
+    set {CH::global::boardBlock::moveDisplay} to lime stained glass
+    set {CH::global::boardBlock::moveCapture} to redstone torch
+
+
+
+function CHcreateBoard(l: location):
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    CHcreateSquare(location at ({_x}, {_y}, {_z}) in {_w}, 8, air)
+    CHcreateHollowSquare(location at ({_x} - 1, {_y}, {_z} - 1) in {_w}, 10, {CH::global::boardBlock::border})
+    CHcreateHollowSquare(location at ({_x} - 1, {_y} - 1, {_z} - 1) in {_w}, 10, {CH::global::boardBlock::border})
+    loop 4 times:
+        loop 4 times:
+            set {_lv1-1} to loop-value-1
+            set {_lv1-1} to {_lv1-1} - 1
+            set {_lv2-1} to loop-value-2
+            set {_lv2-1} to {_lv2-1} - 1
+            set block at location {_x} + {_lv2-1} * 2, {_y} - 1, {_z} + {_lv1-1} * 2 in {_w} to {CH::global::boardBlock::blackSquare}
+            set block at location {_x} + 1 + {_lv2-1} * 2, {_y} - 1, {_z} + {_lv1-1} * 2 in {_w} to {CH::global::boardBlock::whiteSquare}
+            wait 1 tick
+            set block at location {_x} + {_lv2-1} * 2, {_y} - 1, {_z} + 1 + {_lv1-1} * 2 in {_w} to {CH::global::boardBlock::whiteSquare}
+            wait 1 tick
+            set block at location {_x} + 1 + {_lv2-1} * 2, {_y} - 1, {_z} + 1 + {_lv1-1} * 2 in {_w} to {CH::global::boardBlock::blackSquare}
+            wait 1 tick
+    loop 8 times:
+        set {_lv-1} to loop-value - 1
+        set block at location at {_x} + 1, {_y}, {_z} + {_lv-1} in {_w} to {CH::global::boardBlock::white::pieces::1}
+    set block at location at {_x}, {_y}, {_z} in {_w} to {CH::global::boardBlock::white::pieces::2}
+    set block at location at {_x}, {_y}, {_z} + 1 in {_w} to {CH::global::boardBlock::white::pieces::3}
+    set block at location at {_x}, {_y}, {_z} + 2 in {_w} to {CH::global::boardBlock::white::pieces::4}
+    set block at location at {_x}, {_y}, {_z} + 3 in {_w} to {CH::global::boardBlock::white::pieces::5}
+    set block at location at {_x}, {_y}, {_z} + 4 in {_w} to {CH::global::boardBlock::white::pieces::6}
+    set block at location at {_x}, {_y}, {_z} + 5 in {_w} to {CH::global::boardBlock::white::pieces::4}
+    set block at location at {_x}, {_y}, {_z} + 6 in {_w} to {CH::global::boardBlock::white::pieces::3}
+    set block at location at {_x}, {_y}, {_z} + 7 in {_w} to {CH::global::boardBlock::white::pieces::2}
+    loop 8 times:
+        set {_lv-1} to loop-value - 1
+        set block at location at {_x} + 6, {_y}, {_z} + {_lv-1} in {_w} to {CH::global::boardBlock::black::pieces::1}
+    set block at location at {_x} + 7, {_y}, {_z} in {_w} to {CH::global::boardBlock::black::pieces::2}
+    set block at location at {_x} + 7, {_y}, {_z} + 1 in {_w} to {CH::global::boardBlock::black::pieces::3}
+    set block at location at {_x} + 7, {_y}, {_z} + 2 in {_w} to {CH::global::boardBlock::black::pieces::4}
+    set block at location at {_x} + 7, {_y}, {_z} + 3 in {_w} to {CH::global::boardBlock::black::pieces::5}
+    set block at location at {_x} + 7, {_y}, {_z} + 4 in {_w} to {CH::global::boardBlock::black::pieces::6}
+    set block at location at {_x} + 7, {_y}, {_z} + 5 in {_w} to {CH::global::boardBlock::black::pieces::4}
+    set block at location at {_x} + 7, {_y}, {_z} + 6 in {_w} to {CH::global::boardBlock::black::pieces::3}
+    set block at location at {_x} + 7, {_y}, {_z} + 7 in {_w} to {CH::global::boardBlock::black::pieces::2}
+    set block at location {_x} - 1, {_y} + 1, {_z} + 4 in {_w} to {CH::global::boardBlock::white::sign}
+    loop size of {CH::global::boardBlock::white::signLines::*} times:
+        set line loop-value of block at location {_x} - 1, {_y} + 1, {_z} + 4 in {_w} to {CH::global::boardBlock::white::signLines::%loop-value%}
+    set block at location {_x} + 8, {_y} + 1, {_z} + 4 in {_w} to {CH::global::boardBlock::black::sign}
+    loop size of {CH::global::boardBlock::black::signLines::*} times:
+        set line loop-value of block at location {_x} + 8, {_y} + 1, {_z} + 4 in {_w} to {CH::global::boardBlock::black::signLines::%loop-value%}
+    add {_l} to {CH::global::availableGames::*}
+
+function CHcreateHollowSquare(l: location, s: integer, b: item):
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    loop {_s} - 1 times:
+        set {_lv} to loop-value
+        set block at location {_x} + {_lv}, {_y}, {_z} in {_w} to {CH::global::boardBlock::border}
+        wait 1 tick
+    set {_llv} to {_lv}
+    loop {_s} - 1 times:
+        set {_lv} to loop-value
+        set block at location {_x} + {_llv}, {_y}, {_z} + {_lv} in {_w} to {CH::global::boardBlock::border}
+        wait 1 tick
+    set {_lllv} to {_llv}
+    set {_llv} to {_lv}
+    loop {_s} - 1 times:
+        set {_lv} to loop-value
+        set block at location {_x} + {_lllv} - {_lv}, {_y}, {_z} + {_llv} in {_w} to {CH::global::boardBlock::border}
+        wait 1 tick
+    set {_llv} to {_lv}
+    loop {_s} - 1 times:
+        set {_lv} to loop-value
+        set block at location {_x}, {_y}, {_z} + {_llv} - {_lv} in {_w} to bedrock
+        wait 1 tick
+
+function CHcreateSquare(l: location, s: integer, b: item):
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    loop {_s} times:
+        loop {_s} times:
+            set {_lv1-1} to loop-value-1
+            set {_lv1-1} to {_lv1-1} - 1
+            set {_lv2-1} to loop-value-2
+            set {_lv2-1} to {_lv2-1} - 1
+            set block at location {_x} + {_lv1-1}, {_y}, {_z} + {_lv2-1} in {_w} to {_b}
+
+
+function CHsetActiveSquare(l: location, ls: location):
+    set {_ws} to world of {_ls}
+    set {_xs} to x-coordinate of {_ls}
+    set {_ys} to y-coordinate of {_ls}
+    set {_zs} to z-coordinate of {_ls}
+    CHunsetActiveSquare({_l})
+    set {CH::local::%{_l}%::activeSquare} to location at {_xs}, {_ys}, {_zs} in {_ws}
+    set {CH::local::%{_l}%::activeSquare::moveableSquares::*} to CHmoveableSquares({_l}, {_ls})
+    loop CHmoveableSquares({_l}, {_ls}):
+        if block at loop-value = air:
+            set block at loop-value to {CH::global::boardBlock::moveDisplay}
+        else:
+            set {_wlv} to world of loop-value
+            set {_xlv} to x-coordinate of loop-value
+            set {_ylv} to y-coordinate of loop-value
+            set {_zlv} to z-coordinate of loop-value
+            set block at location at {_xlv}, {_ylv} + 1, {_zlv} in {_wlv} to {CH::global::boardBlock::moveCapture}
+    set block at location at {_xs}, {_ys} + 1, {_zs} in {_ws} to block at location at {_xs}, {_ys}, {_zs} in {_ws}
+    set block at location at {_xs}, {_ys}, {_zs} in {_ws} to air
+
+function CHunsetActiveSquare(l: location):
+    set {_ws} to world of {CH::local::%{_l}%::activeSquare}
+    set {_xs} to x-coordinate of {CH::local::%{_l}%::activeSquare}
+    set {_ys} to y-coordinate of {CH::local::%{_l}%::activeSquare}
+    set {_zs} to z-coordinate of {CH::local::%{_l}%::activeSquare}
+    set block at location at {_xs}, {_ys}, {_zs} in {_ws} to block at location at {_xs}, {_ys} + 1, {_zs} in {_ws}
+    set block at location at {_xs}, {_ys} + 1, {_zs} in {_ws} to air
+    loop {CH::local::%{_l}%::activeSquare::moveableSquares::*}:
+        if block at loop-value = {CH::global::boardBlock::moveDisplay}:
+            set block at loop-value to air
+        else:
+            set {_wlv} to world of loop-value
+            set {_xlv} to x-coordinate of loop-value
+            set {_ylv} to y-coordinate of loop-value
+            set {_zlv} to z-coordinate of loop-value
+            set block at location at {_xlv}, {_ylv} + 1, {_zlv} in {_wlv} to air
+
+function CHmoveableSquares(l: location, ls: location) :: locations:
+    set {_w} to world of {_l}
+    set {_x} to x-coordinate of {_l}
+    set {_y} to y-coordinate of {_l}
+    set {_z} to z-coordinate of {_l}
+    set {_x1Border} to {_x} - 1
+    set {_z1Border} to {_z} - 1
+    set {_x2Border} to {_x} + 8
+    set {_z2Border} to {_z} + 8
+    set {_ws} to world of {_ls}
+    set {_xs} to x-coordinate of {_ls}
+    set {_ys} to y-coordinate of {_ls}
+    set {_zs} to z-coordinate of {_ls}
+    set {_b} to block at {_ls}
+    set {_p} to CHblockToPiece({_b})
+    set {_colorList::*} to "white" and "black"
+    loop {_colorList::*}:
+        if {CH::global::boardBlock::%loop-value%::pieces::*} contains {_b}:
+            set {_c} to "%loop-value%"
+    if {_c} = "white":
+        if {_p} = 1:
+            if {_xs} + 1 < {_x2Border}:
+                if {CH::global::boardBlock::white::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} in {_ws}:
+                    add location at {_xs} + 1, {_ys}, {_zs} in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} + 2, {_ys}, {_zs} in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if {CH::global::boardBlock::white::pieces::*} does not contain block at location at {_xs} + 2, {_ys}, {_zs} in {_ws}:
+                        add location at {_xs} + 2, {_ys}, {_zs} in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} + 1, {_ys}, {_zs} + 1 in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::enPassant} = true:
+                    add location at {_xs} + 1, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} + 1, {_ys}, {_zs} - 1 in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::enPassant} = true:
+                    add location at {_xs} + 1, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+        else if {_p} = 6:
+            set {_tempLocation} to location at {_x}, {_y}, {_z} + 4 in {_w}
+            if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                set {_tempLocation} to location at {_x}, {_y}, {_z} in {_w}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if block at location {_x}, {_y}, {_z} + 1 in {_w} = air:
+                        if block at location {_x}, {_y}, {_z} + 2 in {_w} = air:
+                            if block at location {_x}, {_y}, {_z} + 3 in {_w} = air:
+                                add location at {_x}, {_y}, {_z} + 2 in {_w} to {_r::*}
+                set {_tempLocation} to location at {_x}, {_y}, {_z} in {_w}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if block at location {_x}, {_y}, {_z} + 5 in {_w} = air:
+                        if block at location {_x}, {_y}, {_z} + 6 in {_w} = air:
+                            add location at {_x}, {_y}, {_z} + 6 in {_w} to {_r::*}
+    else if {_c} = "black":
+        if {_p} = 1:
+            if {_xs} - 1 > {_x1Border}:
+                if {CH::global::boardBlock::black::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} in {_ws}:
+                    add location at {_xs} - 1, {_ys}, {_zs} in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} - 2, {_ys}, {_zs} in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if {CH::global::boardBlock::black::pieces::*} does not contain block at location at {_xs} - 2, {_ys}, {_zs} in {_ws}:
+                        add location at {_xs} - 2, {_ys}, {_zs} in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} - 1, {_ys}, {_zs} - 1 in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::enPassant} = true:
+                    add location at {_xs} - 1, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+                set {_tempLocation} to location at {_xs} - 1, {_ys}, {_zs} + 1 in {_ws}
+                if {CH::local::%{_l}%::%{_tempLocation}%::enPassant} = true:
+                    add location at {_xs} - 1, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+        else if {_p} = 6:
+            set {_tempLocation} to location at {_x} + 7, {_y}, {_z} + 4 in {_w}
+            if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                set {_tempLocation} to location at {_x} + 7, {_y}, {_z} in {_w}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if block at location {_x} + 7, {_y}, {_z} + 1 in {_w} = air:
+                        if block at location {_x} + 7, {_y}, {_z} + 2 in {_w} = air:
+                            if block at location {_x} + 7, {_y}, {_z} + 3 in {_w} = air:
+                                add location at {_x} + 7, {_y}, {_z} + 2 in {_w} to {_r::*}
+                set {_tempLocation} to location at {_x} + 7, {_y}, {_z} in {_w}
+                if {CH::local::%{_l}%::%{_tempLocation}%::moved} = false:
+                    if block at location {_x} + 7, {_y}, {_z} + 5 in {_w} = air:
+                        if block at location {_x} + 7, {_y}, {_z} + 6 in {_w} = air:
+                            add location at {_x} + 7, {_y}, {_z} + 6 in {_w} to {_r::*}
+    set {_colorList::*} to "white" and "black"
+    loop {_colorList::*}:
+        if {_c} = loop-value:
+            if {_p} = 2:
+                loop 7 times:
+                    if {_xs} + loop-value-2 < {_x2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws}:
+                            add location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws} to {_r::*}
+                        if block at location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_zs} + loop-value-2 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws}:
+                            add location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws} to {_r::*}
+                        if block at location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws}:
+                            add location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws} to {_r::*}
+                        if block at location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_zs} - loop-value-2 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                            add location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                        if block at location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+            else if {_p} = 3:
+                if {_xs} + 2 < {_x2Border}:
+                    if {_zs} + 1 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} + 2, {_ys}, {_zs} + 1 in {_ws}:
+                            add location at {_xs} + 2, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                    if {_zs} - 1 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} + 2, {_ys}, {_zs} - 1 in {_ws}:
+                            add location at {_xs} + 2, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+                if {_zs} + 2 < {_z2Border}:
+                    if {_xs} + 1 < {_x2Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} + 2 in {_ws}:
+                            add location at {_xs} + 1, {_ys}, {_zs} + 2 in {_ws} to {_r::*}
+                    if {_xs} - 1 > {_x1Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} + 2 in {_ws}:
+                            add location at {_xs} - 1, {_ys}, {_zs} + 2 in {_ws} to {_r::*}
+                if {_xs} - 2 > {_x1Border}:
+                    if {_zs} + 1 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} - 2, {_ys}, {_zs} + 1 in {_ws}:
+                            add location at {_xs} - 2, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                    if {_zs} - 1 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} - 2, {_ys}, {_zs} - 1 in {_ws}:
+                            add location at {_xs} - 2, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+                if {_zs} - 2 > {_z1Border}:
+                    if {_xs} + 1 < {_x2Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} - 2 in {_ws}:
+                            add location at {_xs} + 1, {_ys}, {_zs} - 2 in {_ws} to {_r::*}
+                    if {_xs} - 1 > {_x1Border}:
+                        if {CH::global::boardBlock::%loop-value%::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} - 2 in {_ws}:
+                            add location at {_xs} - 1, {_ys}, {_zs} - 2 in {_ws} to {_r::*}
+            else if {_p} = 4:
+                loop 7 times:
+                    if {_xs} + loop-value-2 < {_x2Border}:
+                        if {_zs} + loop-value-2 < {_z2Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws}:
+                                add location at {_xs} + loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} + loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {_zs} + loop-value-2 < {_z2Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws}:
+                                add location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {_zs} - loop-value-2 > {_z1Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                                add location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} + loop-value-2 < {_x2Border}:
+                        if {_zs} - loop-value-2 > {_z1Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                                add location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+            else if {_p} = 5:
+                loop 7 times:
+                    if {_xs} + loop-value-2 < {_x2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws}:
+                            add location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws} to {_r::*}
+                        if block at location at {_xs} + loop-value-2, {_ys}, {_zs} in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_zs} + loop-value-2 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws}:
+                            add location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws} to {_r::*}
+                        if block at location at {_xs}, {_ys}, {_zs} + loop-value-2 in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws}:
+                            add location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws} to {_r::*}
+                        if block at location at {_xs} - loop-value-2, {_ys}, {_zs} in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_zs} - loop-value-2 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                            add location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                        if block at location at {_xs}, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {_zs} + loop-value-2 < {_z2Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws}:
+                                add location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} - loop-value-2, {_ys}, {_zs} + loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} - loop-value-2 > {_x1Border}:
+                        if {_zs} - loop-value-2 > {_z1Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                                add location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} - loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+                loop 7 times:
+                    if {_xs} + loop-value-2 < {_x2Border}:
+                        if {_zs} - loop-value-2 > {_z1Border}:
+                            if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws}:
+                                add location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} to {_r::*}
+                            if block at location at {_xs} + loop-value-2, {_ys}, {_zs} - loop-value-2 in {_ws} != air:
+                                exit loop
+                        else:
+                            exit loop
+                    else:
+                        exit loop
+            else if {_p} = 6:
+                if {_xs} + 1 < {_x2Border}:
+                    if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} in {_ws}:
+                        add location at {_xs} + 1, {_ys}, {_zs} in {_ws} to {_r::*}
+                if {_zs} + 1 < {_z2Border}:
+                    if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} + 1 in {_ws}:
+                        add location at {_xs}, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                if {_xs} - 1 > {_x1Border}:
+                    if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} in {_ws}:
+                        add location at {_xs} - 1, {_ys}, {_zs} in {_ws} to {_r::*}
+                if {_zs} - 1 > {_z1Border}:
+                    if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs}, {_ys}, {_zs} - 1 in {_ws}:
+                        add location at {_xs}, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+                if {_xs} + 1 < {_x2Border}:
+                    if {_zs} + 1 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} + 1 in {_ws}:
+                            add location at {_xs} + 1, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                if {_xs} - 1 > {_x1Border}:
+                    if {_zs} + 1 < {_z2Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} + 1 in {_ws}:
+                            add location at {_xs} - 1, {_ys}, {_zs} + 1 in {_ws} to {_r::*}
+                if {_xs} - 1 > {_x1Border}:
+                    if {_zs} - 1 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} - 1, {_ys}, {_zs} - 1 in {_ws}:
+                            add location at {_xs} - 1, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+                if {_xs} + 1 < {_x2Border}:
+                    if {_zs} - 1 > {_z1Border}:
+                        if {CH::global::boardBlock::%loop-value-1%::pieces::*} does not contain block at location at {_xs} + 1, {_ys}, {_zs} - 1 in {_ws}:
+                            add location at {_xs} + 1, {_ys}, {_zs} - 1 in {_ws} to {_r::*}
+    return {_r::*}
+
+
+function CHblockToPiece(b: item) :: integer:
+    set {_colorList::*} to "white" and "black"
+    loop {_colorList::*}:
+        loop size of {CH::global::boardBlock::%loop-value%::pieces::*} times:
+            if {CH::global::boardBlock::%loop-value-1%::pieces::%loop-value-2%} = {_b}:
+                return "%loop-value-2%" parsed as integer
+
+
+
+on right click:
+    if event-block = {CH::global::boardBlock::white::sign} or {CH::global::boardBlock::black::sign}:
+        loop size of {CH::global::availableGames::*} times:
+            set {_l} to {CH::global::availableGames::%loop-value%}
+            set {_w} to world of {_l}
+            set {_x} to x-coordinate of {_l}
+            set {_y} to y-coordinate of {_l}
+            set {_z} to z-coordinate of {_l}
+            if location of event-block = location at {_x} - 1, {_y} + 1, {_z} + 4 in {_w}:
+                set block at location {_x} - 1, {_y} + 1, {_z} + 4 in {_w} to air
+                set {CH::local::%{_l}%::white::player} to player
+                if {CH::local::%{_l}%::black::player} is set:
+                    if {CH::local::%{_l}%::black::player} = player:
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing against yourself in game {@CHC2}##%loop-value%{@CHC3}. Good luck, I guess."
+                    else:
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing as white against {@CHC2}%{CH::local::%{_l}%::black::player}%{@CHC3} in game {@CHC2}##%loop-value%{@CHC2}. First to checkmate their opponent wins!"
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing as black against {@CHC2}%{CH::local::%{_l}%::white::player}%{@CHC3} in game {@CHC2}##%loop-value%{@CHC2}. First to checkmate their opponent wins!" to {CH::local::%{_l}%::black::player}
+                    set {_execute1} to true
+                else:
+                    send "%{CH::global::prefix}%{@CHC3}You will play as white in game {@CHC2}##%loop-value%{@CHC3}. Waiting for an opponent to play as black..."
+                exit loop
+            else if location of event-block = location at {_x} + 8, {_y} + 1, {_z} + 4 in {_w}:
+                set block at location {_x} + 8, {_y} + 1, {_z} + 4 in {_w} to air
+                set {CH::local::%{_l}%::black::player} to player
+                if {CH::local::%{_l}%::white::player} is set:
+                    if {CH::local::%{_l}%::white::player} = player:
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing against yourself in game {@CHC2}##%loop-value%{@CHC3}. Good luck, I guess."
+                    else:
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing as black against {@CHC2}%{CH::local::%{_l}%::white::player}%{@CHC3} in game {@CHC2}##%loop-value%{@CHC2}. First to checkmate their opponent wins!"
+                        send "%{CH::global::prefix}%{@CHC3}You are now playing as white against {@CHC2}%{CH::local::%{_l}%::black::player}%{@CHC3} in game {@CHC2}##%loop-value%{@CHC2}. First to checkmate their opponent wins!" to {CH::local::%{_l}%::white::player}
+                    set {_execute1} to true
+                else:
+                    send "%{CH::global::prefix}%{@CHC3}You will play as black in game {@CHC2}##%loop-value%{@CHC3}. Waiting for an opponent to play as white..."
+                exit loop
+        if {_execute1} = true:
+            loop 8 times:
+                set {_lv-1} to loop-value
+                set {_lv-1} to {_lv-1} - 1
+                set {_tempLocation} to location at {_x} + 3, {_y}, {_z} + {_lv-1} in {_w}
+                set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+                set {_tempLocation} to location at {_x} + 4, {_y}, {_z} + {_lv-1} in {_w}
+                set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+                set {_tempLocation} to location at {_x} + 1, {_y}, {_z} + {_lv-1} in {_w}
+                set {CH::local::%{_l}%::%{_tempLocation}%::enPassant} to false
+                set {_tempLocation} to location at {_x} + 6, {_y}, {_z} + {_lv-1} in {_w}
+                set {CH::local::%{_l}%::%{_tempLocation}%::enPassant} to false
+            set {_tempLocation} to location at {_x}, {_y}, {_z} in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            set {_tempLocation} to location at {_x}, {_y}, {_z} + 4 in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            set {_tempLocation} to location at {_x}, {_y}, {_z} + 7 in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            set {_tempLocation} to location at {_x} + 7, {_y}, {_z} in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            set {_tempLocation} to location at {_x} + 7, {_y}, {_z} + 4 in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            set {_tempLocation} to location at {_x} + 7, {_y}, {_z} + 7 in {_w}
+            set {CH::local::%{_l}%::%{_tempLocation}%::moved} to false
+            remove {_l} from {CH::global::availableGames::*}
+            add {_l} to {CH::global::activeGames::*}
+    set {_colorList::*} to "white" and "black"
+    loop {_colorList::*}:
+        if {CH::global::boardBlock::%loop-value%::pieces::*} contains event-block:
+            loop size of {CH::global::activeGames::*} times:
+                set {_l} to {CH::global::activeGames::%loop-value-2%}
+                set {_w} to world of {_l}
+                set {_x} to x-coordinate of {_l}
+                set {_y} to y-coordinate of {_l}
+                set {_z} to z-coordinate of {_l}
+                if player = {CH::local::%{_l}%::white::player} or {CH::local::%{_l}%::black::player}:
+                    loop 8 times:
+                        loop 2 times:
+                            loop 8 times:
+                                set {_lv3-1} to loop-value-3
+                                set {_lv3-1} to {_lv3-1} - 1
+                                set {_lv4-1} to loop-value-4
+                                set {_lv4-1} to {_lv4-1} - 1
+                                set {_lv5-1} to loop-value-5
+                                set {_lv5-1} to {_lv5-1} - 1
+                                set {_ls} to location at {_x} + {_lv3-1}, {_y} + {_lv4-1}, {_z} + {_lv5-1} in {_w}
+                                if location of event-block = {_ls}:
+                                    set {_colorList::*} to "white" and "black"
+                                    loop {_colorList::*}:
+                                        if {CH::global::boardBlock::%loop-value-6%::pieces::*} contains event-block:
+                                            if player = {CH::local::%{_l}%::%loop-value-6%::player}:
+                                                CHsetActiveSquare({_l}, {_ls})
+                                            stop
+                                    if event-block = {CH::global::boardBlock::moveDisplay}:
+                                        

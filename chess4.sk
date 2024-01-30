@@ -1,0 +1,366 @@
+options:
+    C1: <##009c1a5>
+    C2: <##5fd974>
+    C3: &7
+    C4: &c
+
+on load:
+    set {CH::prefix} to "{@C1}&lCHESS &8»"
+    set {CH::board::piece::white::*} to quartz block, iron block, white terracotta, white wool, quartz bricks and chiseled quartz block
+    set {CH::board::piece::black::*} to polished blackstone, coal block, black terracotta, black wool, polished blackstone bricks and chiseled polished blackstone
+    set {CH::board::setup} to "b2 b3 b4 b5 b6 b4 b3 b2 b1 b1 b1 b1 b1 b1 b1 b1 a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a w1 w1 w1 w1 w1 w1 w1 w1 w2 w3 w4 w5 w6 w4 w3 w2"
+    delete {CH::board::indicator::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-554328644,1220102470,-1396119578,-33059658],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""1""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;1798930196,-418755633,-1180596697,-191167104],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTZmYWI5OTFkMDgzOTkzY2I4M2U0YmNmNDRhMGI2Y2VmYWM2NDdkNDE4OWVlOWNiODIzZTljYzE1NzFlMzgifX19""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""2""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-1662934144,-1310109729,-1711714557,-8247028],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QzMTliOTM0M2YxN2EzNTYzNmJjYmMyNmI4MTk2MjVhOTMzM2RlMzczNjExMWYyZTkzMjgyN2M4ZTc0OSJ9fX0=""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""3""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-998804091,-1527493898,-2071071821,-2080157624],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE5OGQ1NjIxNjE1NjExNDI2NTk3M2MyNThmNTdmYzc5ZDI0NmJiNjVlM2M3N2JiZTgzMTJlZTM1ZGI2In19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""4""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;1611541402,-1398783221,-1794798376,-1667359596],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZiOTFiYjk3NzQ5ZDZhNmVlZDQ0NDlkMjNhZWEyODRkYzRkZTZjMzgxOGVlYTVjN2UxNDlkZGRhNmY3YzkifX19""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""5""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;404346533,-833336119,-2080933468,-312387212],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM2MTNmODBhNTU0OTE4YzdhYjJjZDRhMjc4NzUyZjE1MTQxMmE0NGE3M2Q3YTI4NmQ2MWQ0NWJlNGVhYWUxIn19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""6""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;1085209224,-49855791,-1722364667,-1210664771],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUxOThmZDgzMWNiNjFmMzkyN2YyMWNmOGE3NDYzYWY1ZWEzYzdlNDNiZDNlOGVjN2QyOTQ4NjMxY2NlODc5In19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""7""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;267142664,-1818607201,-1862946802,-517519035],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODRhZDEyYzJmMjFhMTk3MmYzZDJmMzgxZWQwNWE2Y2MwODg0ODlmY2ZkZjY4YTcxM2IzODc0ODJmZTkxZTIifX19""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""8""}],""text"":""""}'}}" to {CH::board::indicator::ranks::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-2032433101,-415940404,-1087787125,-1200612352],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTdkZDM0OTI0ZDJiNmEyMTNhNWVkNDZhZTU3ODNmOTUzNzNhOWVmNWNlNWM4OGY5ZDczNjcwNTk4M2I5NyJ9fX0=""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""A""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-391101065,1272204594,-2083837408,-988635098],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWVjYTk4YmVmZDBkN2VmY2E5YjExZWJmNGIyZGE0NTljYzE5YTM3ODExNGIzY2RkZTY3ZDQwNjdhZmI4OTYifX19""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""B""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-1865726961,-1313849259,-1265402773,-706640573],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTZiMTQ4NmUxZjU3NmJjOTIxYjhmOWY1OWZlNjEyMmNlNmNlOWRkNzBkNzVlMmM5MmZkYjhhYjk4OTdiNSJ9fX0=""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""C""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;1168866349,-1080342854,-1305654597,1829308216],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTlhYTY5MjI5ZmZkZmExODI4ODliZjMwOTdkMzIyMTVjMWIyMTU5ZDk4NzEwM2IxZDU4NDM2NDZmYWFjIn19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""D""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;885009804,1998081773,-1839175065,1863191758],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VkOWY0MzFhOTk3ZmNlMGQ4YmUxODQ0ZjYyMDkwYjE3ODNhYzU2OWM5ZDI3OTc1MjgzNDlkMzdjMjE1ZmNjIn19fQ==""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""E""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;-1641713377,-920239942,-1873735096,-1295198444],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQ3MTRiYWZiMGI1YWI5Y2ZhN2RiMDJlZmM4OTI3YWVkMWVmMjk3OTdhNTk1ZGEwNjZlZmM1YzNlZmRjOSJ9fX0=""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""F""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;2088598567,712525234,-1206705947,1116828067],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThjMzM2ZGVkZmUxOTdiNDM0YjVhYjY3OTg4Y2JlOWMyYzlmMjg1ZWMxODcxZmRkMWJhNDM0ODU1YiJ9fX0=""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""G""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    add player head with nbt "{SkullOwner:{Id:[I;891318773,936657251,-1643757216,-246382284],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRlNGE4OWJlMjE5N2Y4NmQyZTYxNjZhMGFjNTQxY2NjMjFkY2UyOGI3ODU0Yjc4OGQzMjlhMzlkYWVjMzIifX19""}]}},display:{Name:'{""extra"":[{""bold"":false,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":false,""color"":""white"",""text"":""H""}],""text"":""""}'}}" to {CH::board::indicator::files::*}
+    set {CH::board::square::item::white} to white stained glass pane
+    set {CH::board::square::item::black} to black stained glass pane
+    set {CH::board::square::gui::slot::white::*} to 10, 12, 14, 16, 20, 22, 24, 26, 28, 30, 32, 34, 38, 40, 42, 44, 46, 48, 50 and 52
+    set {CH::board::square::gui::slot::black::*} to 11, 13, 15, 17, 19, 21, 23, 25, 29, 31, 33, 35, 37, 39, 41, 43, 47, 49, 51 and 53
+    set {CH::board::square::inventory::slot::white::*} to 11, 13, 15, 17, 19, 21, 23, 25, 29, 31, 33 and 35
+    set {CH::board::square::inventory::slot::black::*} to 10, 12, 14, 16, 20, 22, 24, 26, 28, 30, 32 and 34
+    set {CH::board::square::gui::slots::*} to 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52 and 53
+    set {CH::board::square::inventory::slots::*} to 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 28, 29, 30, 31, 32, 33, 34 and 35
+    set {CH::sound::good} to "entity.villager.yes"
+    set {CH::sound::bad} to "entity.villager.no"
+    
+
+on inventory click:
+    set {_u} to player's uuid
+    if {CH::%{_u}%::game::opponent} is set:
+        set {_u2} to {CH::%{_u}%::game::opponent}
+        set {_p2} to {_u2} parsed as player
+        set {_i} to CHgetGameIndicator({_u}, {_u2})
+        set {_g} to {CH::%{_u}%::game::game}
+        if event-inventoryaction != pickup all or place all or swap with cursor:
+            cancel event
+        if event-inventory = metadata tag "CH::%{_i}%::game::%{_g}%" of player:
+            set {_inventoryType} to "gui"
+            if {CH::board::square::gui::slots::*} does not contain index of event-slot:
+                cancel event
+                stop
+            else if event-inventoryaction = swap with cursor:
+                if event-slot = {CH::board::square::item::white} or {CH::board::square::item::black}:
+                    set slot index of event-slot of metadata tag "CH::%{_i}%::game::%{_g}%" of player to air
+        else if event-inventory = inventory of player:
+            set {_inventoryType} to "inventory"
+            if {CH::board::square::inventory::slots::*} does not contain index of event-slot:
+                cancel event
+                stop
+            else if event-inventoryaction = swap with cursor:
+                if event-slot = {CH::board::square::item::white} or {CH::board::square::item::black}:
+                    set slot index of event-slot of player to air
+        if event-inventoryaction = pickup all:
+            if event-slot = {CH::board::square::item::white} or {CH::board::square::item::black}:
+                cancel event
+                stop
+            set {CH::%{_u}%::game::lastItem} to event-slot
+            set {CH::%{_u}%::game::lastSlot} to "%{_inventoryType}% %index of event-slot%"
+            if {CH::board::piece::white::*} contains event-slot:
+                set {CH::%{_u}%::game::lastColor} to "white"
+            else if {CH::board::piece::black::*} contains event-slot:
+                set {CH::%{_u}%::game::lastColor} to "black"
+            play sound "block.stone.step" with pitch 1.2
+            if {CH::%{_u2}%::game::opponent} = {_u}:
+                play sound "block.stone.step" with pitch 1.2 to {_p2}
+            wait 1 tick
+            if {_inventoryType} = "gui":
+                set slot index of event-slot of metadata tag "CH::%{_i}%::game::%{_g}%" of player to {CH::board::square::item::white}
+                if {CH::board::square::gui::slot::black::*} contains index of event-slot:
+                    set slot index of event-slot of metadata tag "CH::%{_i}%::game::%{_g}%" of player to {CH::board::square::item::black}
+            else if {_inventoryType} = "inventory":
+                set slot index of event-slot of player to {CH::board::square::item::white}
+                if {CH::board::square::inventory::slot::black::*} contains index of event-slot:
+                    set slot index of event-slot of player to {CH::board::square::item::black}
+            CHsavePieces(player, {_u}, {_u2}, {_g})
+            if {CH::%{_u2}%::game::opponent} = {_u}:
+                CHupdatePieces({_p2}, {_u}, {_u2}, {_g})
+            stop
+        else if event-inventoryaction = swap with cursor:
+            if {CH::board::piece::white::*} contains event-slot:
+                set {_color} to "white"
+            else if {CH::board::piece::black::*} contains event-slot:
+                set {_color} to "black"
+            if {_color} is set:
+                if {_color} = {CH::%{_u}%::game::lastColor}:
+                    cancel event
+                    stop
+                else:
+                    if {_inventoryType} = "gui":
+                        set slot index of event-slot of metadata tag "CH::%{_i}%::game::%{_g}%" of player to air
+                    else if {_inventoryType} = "inventory":
+                        set slot index of event-slot of player to air
+            play sound "block.stone.break" with pitch .8
+            if {CH::%{_u2}%::game::opponent} = {_u}:
+                play sound "block.stone.break" with pitch .8 to {_p2}
+            wait 1 tick
+            CHsavePieces(player, {_u}, {_u2}, {_g})
+            if {CH::%{_u2}%::game::opponent} = {_u}:
+                CHupdatePieces({_p2}, {_u}, {_u2}, {_g})
+
+on inventory close:
+    set {_u} to player's uuid
+    if {CH::%{_u}%::game::opponent} is set:
+        delete {CH::%{_u}%::game::opponent}
+        CHloadInventory(player, "chess")
+
+on tab complete:
+    if event-string contains "/chess":
+        clear tab completions
+        set tab completions for position 1 to "help", "challenge", "accept", "deny" and "open"
+        loop all players:
+            add loop-player to {_players::*}
+        if tab arg-1 = "challenge" or "accept" or "deny" or "open":
+            set tab completions for position 2 to {_players::*}
+
+command /chess [<string>] [<offline player>] [<integer>]:
+    trigger:
+        set {_u} to player's uuid
+        if arg-1 is set:
+            if arg-1 = "challenge":
+                if arg-2 is set:
+                    if arg-2 != player:
+                        set {_u2} to arg-2's uuid
+                        set {_i} to CHgetGameIndicator({_u}, {_u2})
+                        add 1 to {CH::%{_i}%::counter}
+                        add "%{_u}% %{CH::%{_i}%::counter}%" to {CH::%{_u2}%::challenges::*}
+                        send formatted "%{CH::prefix}% {@C3}Challenge request sent to {@C2}%arg-2%{@C3}."
+                        send formatted "%{CH::prefix}% {@C2}%player%{@C3} challenges you to a game {@C2}##%{CH::%{_i}%::counter}%{@C3} of chess. (/chess <accept/deny> <player> [<integer>])" to arg-2
+                        play sound {CH::sound::good}
+                        play sound {CH::sound::good} to arg-2
+                    else:
+                        send formatted "%{CH::prefix}% {@C3}You cannot play yourself."
+                        play sound {CH::sound::bad}
+                else:
+                    send formatted "%{CH::prefix}% {@C4}Unset paramater: /chess challenge <player>"
+            else if arg-1 = "accept" or "deny":
+                if arg-2 is set:
+                    if arg-2 != player:
+                        set {_u2} to arg-2's uuid
+                        set {_i} to CHgetGameIndicator({_u}, {_u2})
+                        loop size of {CH::%{_u}%::challenges::*} times:
+                            set {_challengeSplit::*} to {CH::%{_u}%::challenges::%loop-value%} split at " "
+                            if {_challengeSplit::1} = {_u2}:
+                                add {CH::%{_u}%::challenges::%loop-value%} to {_possibleChallenges::*}
+                        if size of {_possibleChallenges::*} >= 1:
+                            if size of {_possibleChallenges::*} = 1:
+                                set {_challengeSplit::*} to {_possibleChallenges::1} split at " "
+                                set {_challengeInteger} to {_challengeSplit::2} parsed as integer
+                            else if size of {_possibleChallenges::*} > 1:
+                                if arg-3 is set:
+                                    loop size of {_possibleChallenges::*} times:
+                                        set {_challengeSplit::*} to {_possibleChallenges::%loop-value%} split at " "
+                                        if {_challengeSplit::2} parsed as integer = arg-3:
+                                            set {_challengeInteger} to arg-3
+                                    if {_challengeInteger} is not set:
+                                        send formatted "%{CH::prefix}% {@C3}No challenge requests found for the player {@C2}%arg-2%{@C3} with challenge request {@C2}##%arg-3%{@C3}."
+                                        play sound {CH::sound::bad}
+                                        stop
+                                else:
+                                    send formatted "%{CH::prefix}% {@C3}There are multiple challenge requests from {@C2}%arg-2%{@C3}. Specify a challenge using /chess %arg-1% <player> [<integer>]"
+                                    play sound {CH::sound::bad}
+                                    stop
+                            loop size of {_possibleChallenges::*} times:
+                                set {_challengeSplit::*} to {_possibleChallenges::%loop-value%} split at " "
+                                if {_challengeSplit::2} parsed as integer = {_challengeInteger}:
+                                    remove {_possibleChallenges::%loop-value%} from {CH::%{_u}%::challenges::*}
+                                    set {CH::%{_u}%::challenges::*} to sorted {CH::%{_u}%::challenges::*}
+                                    exit loop
+                            if arg-1 = "accept":
+                                set {_i} to CHgetGameIndicator({_u}, {_u2})
+                                add "%{_u2}% %{_challengeInteger}%" to {CH::%{_u}%::games::*}
+                                add "%{_u}% %{_challengeInteger}%" to {CH::%{_u2}%::games::*}
+                                CHsetBoard({_u}, {_u2}, {_challengeInteger}, {CH::board::setup})
+                                set {CH::%{_i}%::game::%{_challengeInteger}%::player1} to "%arg-2%"
+                                set {CH::%{_i}%::game::%{_challengeInteger}%::player2} to "%player%"
+                                send formatted "%{CH::prefix}% {@C3}Challenge request {@C2}##%{_challengeInteger}%{@C3} from {@C2}%arg-2%{@C3} has been accepted. To play the game, do /chess open %arg-2% [<integer>]"
+                                send formatted "%{CH::prefix}% {@C2}%player%{@C3} accepted your {@C2}##%{_challengeInteger}%{@C3} challenge request. To play the game, do /chess open %player% [<integer>]" to arg-2
+                                play sound {CH::sound::good}
+                                play sound {CH::sound::good} to arg-2
+                            else if arg-1 = "deny":
+                                send formatted "%{CH::prefix}% {@C3}Challenge request {@C2}##%{_challengeInteger}%{@C3} from {@C2}%arg-2%{@C3} has been denied."
+                                send formatted "%{CH::prefix}% {@C2}%player%{@C3} denied your {@C2}##%{_challengeInteger}%{@C3} challenge request." to arg-2
+                                play sound {CH::sound::bad}
+                                play sound {CH::sound::bad} to arg-2
+                        else if {_possibleChallenges::*} is not set:
+                            send formatted "%{CH::prefix}% {@C2}%arg-2%{@C3} never sent you a challenge request."
+                    else:
+                        send formatted "%{CH::prefix}% {@C3}You cannot %arg-1% a challenge request from yourself."
+                        play sound {CH::sound::bad}
+                else:
+                    send formatted "%{CH::prefix}% {@C4}Unset paramater: /chess %arg-1% <player> [<integer>]"
+            else if arg-1 = "open":
+                if arg-2 is set:
+                    if arg-2 != player:
+                        set {_u2} to arg-2's uuid
+                        set {_i} to CHgetGameIndicator({_u}, {_u2})
+                        loop size of {CH::%{_u}%::games::*} times:
+                            set {_gameSplit::*} to {CH::%{_u}%::games::%loop-value%} split at " "
+                            if {_gameSplit::1} = {_u2}:
+                                add {CH::%{_u}%::games::%loop-value%} to {_possibleGames::*}
+                        if size of {_possibleGames::*} >= 1:
+                            if size of {_possibleGames::*} = 1:
+                                set {_gameSplit::*} to {_possibleGames::1} split at " "
+                                set {_gameInteger} to {_gameSplit::2} parsed as integer
+                            else if size of {_possibleGames::*} > 1:
+                                if arg-3 is set:
+                                    loop size of {_possibleGames::*} times:
+                                        set {_gameSplit::*} to {_possibleGames::%loop-value%} split at " "
+                                        if {_gameSplit::2} parsed as integer = arg-3:
+                                            set {_gameInteger} to arg-3
+                                    if {_gameInteger} is not set:
+                                        send formatted "%{CH::prefix}% {@C3}No games found for the player {@C2}%arg-2%{@C3} with game {@C2}##%arg-3%{@C3}."
+                                        play sound {CH::sound::bad}
+                                        stop
+                                else:
+                                    send formatted "%{CH::prefix}% {@C3}There are multiple games you are playing with {@C2}%arg-2%{@C3}. Specify a game using /chess open <player> [<integer>]"
+                                    play sound {CH::sound::bad}
+                                    stop
+                            CHopenGame(player, {_u}, {_u2}, {_gameInteger})
+                            send formatted "%{CH::prefix}% {@C3}Opening game {@C2}##%{_gameInteger}%{@C3} with {@C2}%arg-2%{@C3}:"
+                            play sound {CH::sound::good}
+                        else if {_possibleGames::*} is not set:
+                            send formatted "%{CH::prefix}% {@C3}You never started a game with {@C2}%arg-2%{@C3}."
+                            play sound {CH::sound::bad}
+                    else:
+                        send formatted "%{CH::prefix}% {@C3}You cannot play yourself."
+                        play sound {CH::sound::bad}
+                else:
+                    send formatted "%{CH::prefix}% {@C4}Unset paramater: /chess open <player> [<integer>]"
+            else if arg-1 = "help":
+                send "%{CH::prefix}% {@C3}Help menu:"
+                send " &8- {@C2}/chess help &8|{@C3} Opens this help menu."
+                send " &8- {@C2}/chess challenge <player> &8|{@C3} Challenges a selected player to a chess match."
+                send " &8- {@C2}/chess accept <player> [<integer>] &8|{@C3} Accepts a challenge request from a selected player. Input an extra integer to specify which challenge request to accept if there are multiple requests."
+                send " &8- {@C2}/chess deny <player> [<integer>] &8|{@C3} Denies a challenge request from a selected player. Input an extra integer to specify which challenge request to deny if there are multiple requests."
+                send " &8- {@C2}/chess open <player> [<integer>] &8|{@C3} Opens the actual game of chess for the selected player. Input an extra integer to specify which game you want to open if there are multiple games."
+                play sound {CH::sound::good}
+            else:
+                send formatted "%{CH::prefix}% {@C4}Incorrect paramater: /chess <help>"
+        else:
+            send formatted "%{CH::prefix}% {@C4}Unset paramater: /chess <help>"
+
+
+function CHsetBoard(u: string, u2: string, g: integer, board: string):
+    set {_i} to CHgetGameIndicator({_u}, {_u2})
+    delete {CH::%{_i}%::game::%{_g}%::squares::*}
+    set {_boardSplit::*} to {_board} split at " "
+    loop size of {_boardSplit::*} times:
+        set {_boardSplitSplit::*} to {_boardSplit::%loop-value%} split at ""
+        if {_boardSplitSplit::1} = "w":
+            add {CH::board::piece::white::%{_boardSplitSplit::2}%} to {CH::%{_i}%::game::%{_g}%::squares::*}
+        else if {_boardSplitSplit::1} = "b":
+            add {CH::board::piece::black::%{_boardSplitSplit::2}%} to {CH::%{_i}%::game::%{_g}%::squares::*}
+        else if {_boardSplitSplit::1} = "a":
+            add air to {CH::%{_i}%::game::%{_g}%::squares::*}
+
+function CHgetBoard(u: string, u2: string, g: integer) :: string:
+    set {_i} to CHgetGameIndicator({_u}, {_u2})
+    set {_r} to ""
+    loop size of {CH::%{_i}%::game::%{_g}%::squares::*} times:
+        loop size of {CH::board::piece::white::*} times:
+            if "%{CH::board::piece::white::%loop-value-2%}%" = "%{CH::%{_i}%::game::%{_g}%::squares::%loop-value-1%}%":
+                set {_r} to "%{_r}%w%loop-value-2% "
+                exit loop
+        loop size of {CH::board::piece::black::*} times:
+            if "%{CH::board::piece::black::%loop-value-2%}%" = "%{CH::%{_i}%::game::%{_g}%::squares::%loop-value-1%}%":
+                set {_r} to "%{_r}%b%loop-value-2% "
+                exit loop
+        if {CH::%{_i}%::game::%{_g}%::squares::%loop-value%} = air:
+            set {_r} to "%{_r}%a "
+    return first length of {_r} - 1 characters of {_r}
+
+function CHsavePieces(p: player, u: string, u2: string, g: integer):
+    set {_i} to CHgetGameIndicator({_u}, {_u2})
+    delete {CH::%{_i}%::game::%{_g}%::squares::*}
+    loop size of {CH::board::square::gui::slots::*} times:
+        if slot {CH::board::square::gui::slots::%loop-value%} of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} = {CH::board::square::item::white} or {CH::board::square::item::black}:
+            add air to {CH::%{_i}%::game::%{_g}%::squares::*}
+        else:
+            add slot {CH::board::square::gui::slots::%loop-value%} of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::%{_i}%::game::%{_g}%::squares::*}
+    loop size of {CH::board::square::inventory::slots::*} times:
+        if slot {CH::board::square::inventory::slots::%loop-value%} of {_p} = {CH::board::square::item::white} or {CH::board::square::item::black}:
+            add air to {CH::%{_i}%::game::%{_g}%::squares::*}
+        else:
+            add slot {CH::board::square::inventory::slots::%loop-value%} of {_p} to {CH::%{_i}%::game::%{_g}%::squares::*}
+
+function CHopenGame(p: player, u: string, u2: string, g: integer):
+    set {_p2} to {_u2} parsed as player
+    set {_i} to CHgetGameIndicator({_u}, {_u2})
+    set {CH::%{_u}%::game::opponent} to {_u2}
+    set {CH::%{_u}%::game::game} to {_g}
+    CHsaveInventory({_p}, "chess")
+    clear {_p}'s inventory
+    set metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to chest inventory with 6 rows named "<##038200>&lCHESS &8| <##30b52d>%CHgetAbreviatedName({CH::%{_i}%::game::%{_g}%::player1})% vs. %CHgetAbreviatedName({CH::%{_i}%::game::%{_g}%::player2})% ##%{_g}%"
+    set slot 0 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to light gray stained glass pane named " "
+    set slot 9 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::ranks::1}
+    set slot 18 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::ranks::2}
+    set slot 27 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::ranks::3}
+    set slot 36 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::ranks::4}
+    set slot 45 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::ranks::5}
+    set slot 9 of {_p} to {CH::board::indicator::ranks::6}
+    set slot 18 of {_p} to {CH::board::indicator::ranks::7}
+    set slot 27 of {_p} to {CH::board::indicator::ranks::8}
+    set slot 1 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::1}
+    set slot 2 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::2}
+    set slot 3 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::3}
+    set slot 4 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::4}
+    set slot 5 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::5}
+    set slot 6 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::6}
+    set slot 7 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::7}
+    set slot 8 of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::indicator::files::8}
+    CHupdatePieces({_p}, {_u}, {_u2}, {_g})
+    open metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {_p}
+
+function CHupdatePieces(p: player, u: string, u2: string, g: integer):
+    set {_i} to CHgetGameIndicator({_u}, {_u2})
+    loop size of {CH::board::square::gui::slots::*} times:
+        set slot {CH::board::square::gui::slots::%loop-value%} of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::%{_i}%::game::%{_g}%::squares::%loop-value%}
+        if {CH::%{_i}%::game::%{_g}%::squares::%loop-value%} = air:
+            set slot {CH::board::square::gui::slots::%loop-value%} of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::square::item::white}
+            if {CH::board::square::gui::slot::black::*} contains {CH::board::square::gui::slots::%loop-value%}:
+                set slot {CH::board::square::gui::slots::%loop-value%} of metadata tag "CH::%{_i}%::game::%{_g}%" of {_p} to {CH::board::square::item::black}
+    loop size of {CH::board::square::inventory::slots::*} times:
+        set slot {CH::board::square::inventory::slots::%loop-value%} of {_p} to {CH::%{_i}%::game::%{_g}%::squares::%40 + loop-value%}
+        if {CH::%{_i}%::game::%{_g}%::squares::%40 + loop-value%} = air:
+            set slot {CH::board::square::inventory::slots::%loop-value%} of {_p} to {CH::board::square::item::white}
+            if {CH::board::square::inventory::slot::black::*} contains {CH::board::square::inventory::slots::%loop-value%}:
+                set slot {CH::board::square::inventory::slots::%loop-value%} of {_p} to {CH::board::square::item::black}
+
+function CHgetGameIndicator(u: string, u2: string) :: string:
+    add {_u} to {_list::*}
+    add {_u2} to {_list::*}
+    set {_list::*} to sorted {_list::*}
+    return "%{_list::1}%%{_list::2}%"
+
+function CHgetAbreviatedName(s: string) :: string:
+    set {_r} to "%{_s}%"
+    if length of {_r} > 6:
+        return "%first 6 characters of {_r}%."
+    else:
+        return {_r}
+
+function CHloadInventory(p: player, i: string):
+    set {_u} to {_p}'s uuid
+    loop 36 times:
+        set slot loop-value - 1 of {_p}'s inventory to {CH::inventory::%{_i}%::%{_u}%::%loop-value - 1%}
+    set {_p}'s offhand tool to {CH::offhand::%{_i}%::%{_u}%}
+
+function CHsaveInventory(p: player, i: string):
+    set {_u} to {_p}'s uuid
+    loop 36 times:
+        set {CH::inventory::%{_i}%::%{_u}%::%loop-value - 1%} to slot loop-value - 1 of {_p}'s inventory
+    set {CH::offhand::%{_i}%::%{_u}%} to {_p}'s offhand tool
